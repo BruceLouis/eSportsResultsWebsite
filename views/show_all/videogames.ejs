@@ -1,0 +1,10 @@
+<% include ../partials/header %>
+    <h1>eSports Games</h1>
+    
+    <% data.forEach(function(game){ %>
+        <% if (game.leagues.length > 0){ %>
+            <% var game_url = "/" + game.id.toString() %>
+                <a class="games btn-lg btn-default btn-block col-md-12 col-sm-12 col-xs-12" href="/videogames<%= game_url %>"><%= game.name %></a> 
+        <% } %>
+    <% }); %>
+<% include ../partials/footer %>

@@ -1,0 +1,30 @@
+<% include ../partials/header %>
+
+<h1><%= league.name %></h1>
+<img class="league_logo" src="<%= league.image_url %>">
+<% if (league.series.length > 0){ %>
+    <h2 class="series_header"> Series in <%= league.name %> </h2>
+    <div class="row row-centered">
+    <% league.series.forEach(function(series){ %>
+        <% var series_title = series.slug.split("-"); 
+        for (var i = 0; i < series_title.length; i++){ 
+        // if a word looks like this '95aA430', make it an empty string in that index-->
+        // otherwise capitalize first letter of each word and join with spaces-->
+            if (checkLettersAndDigits(series_title[i])){  
+                series_title[i] = ""; 
+            } 
+            else {
+                series_title[i] = series_title[i].charAt(0).toUpperCase() + series_title[i].slice(1); 
+            } 
+        } 
+        series_title = series_title.join(" "); %>
+        <a href="/series/<%= series.id %>">
+        <div class="thumbnail series_thumbnails col-md-4 col-sm-6 col-centered">
+            <h4><%= series_title %></h4>
+        </div>
+        </a>
+    <% }); %>
+    </div>
+<% } %>
+
+<% include ../partials/footer %>

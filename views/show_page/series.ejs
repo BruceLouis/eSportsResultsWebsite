@@ -1,0 +1,32 @@
+<% include ../partials/header %>
+    <h1><%= series.full_name %> Series for <%= series.league.name %> League </h1>
+    <a href="/leagues/<%=series.league.id%>"><img class="league_logo" src="<%= series.league.image_url%>"></a>
+    <% series.tournaments.forEach(function(tournament){ %>
+        <div>
+            <% var tournament_title = tournament.name.split(" "); %>
+            <% for (var i = 0; i < tournament_title.length; i++){ 
+                tournament_title[i] = tournament_title[i].charAt(0).toUpperCase() + tournament_title[i].slice(1); 
+            } 
+            tournament_title = tournament_title.join(" "); %>
+            <a class="panel_link" href="/tournaments/<%=tournament.id%>">
+            <table class="panel">
+                <tr>
+                        <td class="col md-6 sm-6 big_panel">
+                            <p><%= tournament_title %></p>
+                        </td>
+                        <% var start_date = tournament.begin_at.split("T")[0]; %>
+                        <td class="col md-3 sm-3 small_panels">
+                            <p>Commences: <%= moment(start_date).format("MMMM Do YYYY"); %></p>
+                        </td>
+                        <% if (tournament.end_at){ 
+                            var end_date = tournament.end_at.split("T")[0]; %>
+                        <td class="col md-3 sm-3 small_panels">
+                            <p>Ends: <%= moment(end_date).format("MMMM Do YYYY"); %></p>
+                        </td>
+                </tr>
+            </table>
+            </a>
+            <% } %>
+        </div>  
+    <% }); %>
+<% include ../partials/footer %>

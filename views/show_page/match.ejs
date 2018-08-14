@@ -1,0 +1,77 @@
+<% include ../partials/header %>
+<h1><%= match.name %></h1>
+
+<% var which_game = {
+    pubg_or_not: ["pubg_contestants", "non_pubg_contestants"],
+    pubg_or_not_opponents: ["pubg_opponents", "non_pubg_opponents"]
+}; %>
+<div class="row">
+    <% match.opponents.forEach(function(teams){ %>
+        <a href="/teams/<%= teams.opponent.id %>">
+            <% if (match.videogame.name.toLowerCase() !== "pubg".toLowerCase()) { %>
+                <div class="thumbnail col-sm-6 col-xs-12 <%= which_game.pubg_or_not_opponents[1] %>">
+                    <% if (teams.opponent.image_url) { %>
+                        <img class="<%= which_game.pubg_or_not[1] %>" src="<%= teams.opponent.image_url %>">
+                    <% } else { %>
+                        <img class="<%= which_game.pubg_or_not[1] %>" src="https://www.tripenquiry.com/uploads/images/operators/logoh-1484817551.jpeg">
+                    <% } %>
+                </div>
+            <% } else { %>
+                <div class="thumbnail col-md-3 col-sm-4 col-xs-6 <%= which_game.pubg_or_not_opponents[0] %>">
+                    <% if (teams.opponent.image_url) { %>
+                        <img class="<%= which_game.pubg_or_not[0] %>" src="<%= teams.opponent.image_url %>">
+                    <% } else { %>
+                        <img class="<%= which_game.pubg_or_not[0] %>" src="https://www.tripenquiry.com/uploads/images/operators/logoh-1484817551.jpeg">
+                    <% } %>
+                </div>
+            <% } %>
+        </a>
+    <% }); %>
+</div>
+
+<div class="row row-centered">
+    <% var index = 1; %>
+    <% match.games.forEach(function(game){ %>
+        <%  var winner_id = game.winner.id; 
+            var winner_logo = ""; 
+            var winner_name = "";
+            match.opponents.forEach(function(teams){
+                if (teams.opponent.id === winner_id){
+                    winner_logo = teams.opponent.image_url;
+                    winner_name = teams.opponent.name;
+                }
+            }); %>
+        <div class="thumbnail games_thumbnails col-md-3 col-sm-6 col-centered"> 
+            <p class="games_phrases">Game: <%= index %></p>
+            <% if (winner_logo) { %>
+                <img class="games_winner_logo" src="<%= winner_logo %>">
+            <% } else {
+                if (winner_name !== ""){ %>
+                    <img class="games_winner_logo" src="https://www.tripenquiry.com/uploads/images/operators/logoh-1484817551.jpeg">
+            <%  } else { %>
+                    <img class="games_winner_logo" src="https://embargowatch.files.wordpress.com/2010/08/tbd.jpg">
+            <%  } 
+            } %>
+            <p class="games_phrases">Winner: <%= winner_name %></p>    
+        </div>
+        <% index++; %>
+    <% }) %>
+</div>
+
+<div class="row">
+    <div class="col-md-5 col-sm-5">
+        <div class="row empty_bars">
+        </div>
+        <div class="list-group pull-left">
+                <a href="/tournaments/<%= match.tournament.id %>"><li class="list-group-item back_buttons">Back to <%= match.tournament.name %> Tournament</li></a>
+                <a href="/series/<%= match.serie.id %>"><li class="list-group-item back_buttons">Back to <%= match.serie.full_name %> Series</li></a>  
+        </div>
+    </div>
+    <div class="league_menu col-md-7 col-sm-7">
+        <p>This match is a part of the</p>
+        <a href="/leagues/<%= match.league.id %>"><img id="league_match" src="<%= match.league.image_url %>"></a>
+        <p>League</p>
+    </div>
+</div>
+
+<% include ../partials/footer %>

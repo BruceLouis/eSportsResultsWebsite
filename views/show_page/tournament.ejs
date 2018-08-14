@@ -1,0 +1,58 @@
+<% include ../partials/header %>
+<%  var start_date = tournament.begin_at.split("T")[0]; 
+    if (tournament.end_at){ 
+        var end_date = tournament.end_at.split("T")[0];
+    }
+    var series_title = tournament.serie.full_name.split(" "); 
+    var tournament_title = tournament.name.split(" ");
+    tournament_title = capitalizeFirstLetter(tournament_title);
+    series_title = capitalizeFirstLetter(series_title);
+    %>
+    
+    <h1><%= tournament_title %> for <%= series_title %> of <%= tournament.league.name %></h1>
+    <div class="row">
+        <div class="pull-left">
+            <h2>Start Date: <%= moment(start_date).format("MMMM Do YYYY") %></h2>
+        </div>
+        
+        <div class="pull-right">
+            <% if (end_date){ %>
+                <h2>End Date: <%= moment(end_date).format("MMMM Do YYYY") %></h2>
+            <% } %>
+        </div>
+    </div>
+    
+    <div class="jumbotron matches">
+        <div class="row row-centered">
+            <% tournament.matches.forEach(function(match){ %>
+                <a href="/matches/<%= match.id %>">
+                    <div class="thumbnail matches_thumbnails col-md-3 col-sm-6 col-xs-12 col-centered">
+                        <p class="match_name"><%= match.name%></p>
+                    </div>
+                </a>
+            <% }); %>
+        </div>
+    </div>
+    
+<!-- for future reactjs usage. the idea here is to toggle between hide and reveal teams with the buttons -->
+<!--    <button class="btn-primary btn-block" id="teams_in_tournament_button" id="app">Teams</button> -->
+<!--    <button class="btn-primary btn-block" id="app">Teams</button> -->
+
+    <h2 id="teams_in_tournament"> Teams in <%= series_title %></h2>
+    <div class="row row-centered">
+    <% tournament.expected_roster.forEach(function(roster){ %>
+        <a href="/teams/<%= roster.team.id %>">
+            <div class="thumbnail col-md-4 col-sm-6 teams_in_tournament col-centered">
+                <% if (roster.team.image_url) { %>
+                    <img class="team_logos" src="<%= roster.team.image_url%>">
+                <% } else { %>
+                    <img class="team_logos" src="https://www.tripenquiry.com/uploads/images/operators/logoh-1484817551.jpeg">
+                <% } %>
+                <p class="team_names"><%= roster.team.name %></p>
+            </div>
+        </a>
+        
+    <% }) %>
+    </div>
+    
+<% include ../partials/footer %>

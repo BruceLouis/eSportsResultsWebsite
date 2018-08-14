@@ -1,0 +1,17 @@
+<% include ../partials/header %>
+
+<h1><%= game.name %></h1>
+<div class="row row-centered">
+    <% game.leagues.forEach(function(league){ %>
+        <a href="/leagues/<%= league.id %>">
+            <div class="col-md-3 col-sm-6 col-centered">
+                <div class="thumbnail league_thumbnails">
+                    <img class="thumbnail_logos" src="<%= league.image_url %>">
+                    <div class="caption"><h6><%= league.name %></h6></div>
+                </div>
+            </div>
+        </a>
+    <% }); %>
+</div>
+
+<% include ../partials/footer %>

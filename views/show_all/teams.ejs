@@ -1,0 +1,48 @@
+<% include ../partials/header %>
+<%  var gamesArr = teams.map(function(team){
+    return team.current_videogame.name;
+    });
+    gamesArr = gamesArr.filter(function (value, index, self) { 
+        return self.indexOf(value) === index;
+    }); 
+%>
+
+<h1>Teams</h1>
+
+<%  gamesArr.forEach(function(game){
+        var posted = false; %>
+        <div class="row row-centered">
+<%      teams.forEach(function(team){
+            if (team.current_videogame.name === game){ %>
+            
+                <% if (!posted) { %>
+                    <div class="row row-centered">
+                        <p class="team_game"><%=game%></p> 
+                    <% posted = true; %>
+                    </div>
+                <%  } %>
+                
+                <a href="/teams/<%=team.id%>">
+                    <div class="col-md-2 col-sm-4 col-centered">
+                        <div class="thumbnail team_thumbnails many">
+                            <% if (team.image_url) { %> 
+                                <img class="thumbnail_logos many" src="<%= team.image_url %>">
+                            <% } else { %>
+                                <img class="thumbnail_logos many" src="https://www.tripenquiry.com/uploads/images/operators/logoh-1484817551.jpeg">
+                            <% } %>
+                            <div class="caption many">
+                                <% if (team.name.length >= 20) { %>
+                                    <h6><%= team.name.substring(0, 15) %> ..</h6>
+                                <% } else { %>
+                                    <h6><%= team.name %></h6>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+<%          }    
+        }); %>
+        </div>
+<%  }); %>
+
+<% include ../partials/footer %>

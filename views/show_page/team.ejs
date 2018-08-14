@@ -1,0 +1,59 @@
+<% include ../partials/header %>
+
+<div class="team_brand">
+    <% if (team.image_url) { %>
+        <img src="<%= team.image_url %>">
+    <% } else { %>
+        <img class="contestant" src="https://www.tripenquiry.com/uploads/images/operators/logoh-1484817551.jpeg">
+    <% } %>
+    <h2><%= team.name %></h2>
+    <h5>Current Game: <%= team.current_videogame.name %></h5>
+</div>
+
+<div class="row row-centered">
+    <% team.players.forEach(function(player){ %>
+        <div class="thumbnail players_pics col-md-3 col-centered">
+            <% if (player.image_url){ %>
+                <img class="player_mugshot" src="<%= player.image_url %>">
+            <% } else { %>
+                <img class="player_mugshot" src="http://www.jmkxyy.com/anonymous-icon/anonymous-icon-0.jpg">
+            <% } %>
+            <p class="player_handles"><%= player.name %></p>
+        </div>
+    <% }); %>
+</div>
+
+<div class="jumbotron matches">
+    <%  var leaguesArr = matches.map(function(match){
+        return match.league_id;
+        });
+        leaguesArr = leaguesArr.filter(function (value, index, self) { 
+            return self.indexOf(value) === index;
+        }); 
+    %>
+    <h2>Matches Played</h2>
+    
+    <%  /*  iterate through the league id array, then iterate through a nested for loop for individual matches of the teams
+            which will then display the matches if it belongs to the league id */  
+    leaguesArr.forEach(function(league) {    
+        var posted = false; %>
+        <div class="row row-centered">
+            <% matches.forEach(function(match) { 
+                if (match.league_id === league) { %>
+                    <% if (!posted) { %>
+                        <div class="row row-centered">
+                        <a href="/leagues/<%= league %>"><img class="match_leagues" src="<%=match.league.image_url%>"></a>
+                        <% posted = true; %>
+                        </div>
+                    <%  } %>
+                    <a href="/matches/<%= match.id %>">
+                        <div class="thumbnail matches_thumbnails col-md-3 col-sm-6 col-xs-12 col-centered">
+                            <p class="match_name"><%= match.name %></p>
+                        </div>
+                    </a>
+                <% } %>
+            <% }); %>
+        </div>
+    <% }); %>
+</div>
+<% include ../partials/footer %>

@@ -1,0 +1,44 @@
+<% include ../partials/header %>
+<%  var gamesArr = leagues.map(function(league){
+    return league.videogame.name;
+    });
+    gamesArr = gamesArr.filter(function (value, index, self) { 
+        return self.indexOf(value) === index;
+    }); 
+%>
+
+<h1>Leagues</h1>
+
+<%  gamesArr.forEach(function(game){
+        var posted = false; %>
+        <div class="row row-centered">
+<%      leagues.forEach(function(league){
+            if (league.videogame.name === game){ %>
+            
+                <% if (!posted) { %>
+                    <div class="row row-centered">
+                        <p class="league_game"><%=game%></p> 
+                    <% posted = true; %>
+                    </div>
+                <%  } %>
+                
+                <a href="/leagues/<%=league.id%>">
+                    <div class="col-md-2 col-sm-4 col-centered">
+                        <div class="thumbnail league_thumbnails many">
+                            <img class="thumbnail_logos many" src="<%= league.image_url %>">
+                            <div class="caption many">
+                                <% if (league.name.length >= 20) { %>
+                                    <h6><%= league.name.substring(0, 20) %> ..</h6>
+                                <% } else { %>
+                                    <h6><%= league.name %></h6>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+<%          }    
+        }); %>
+        </div>
+<%  }); %>
+
+<% include ../partials/footer %>
