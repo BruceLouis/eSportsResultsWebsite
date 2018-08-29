@@ -1,7 +1,11 @@
 <% include ../partials/header %>
 
 <h1><%= league.name %></h1>
-<img class="league_logo" src="<%= league.image_url %>">
+<% if (league.videogame.id === 3 && !league.image_url){ %>
+    <img class="league_logo" src="http://1000logos.net/wp-content/uploads/2017/12/CSGO-Logo.png">
+<% } else { %>
+    <img class="league_logo" src="<%= league.image_url %>">
+<% } %>
 <% if (league.series.length > 0){ %>
     <h2 class="series_header"> Series in <%= league.name %> </h2>
     <div class="row row-centered">

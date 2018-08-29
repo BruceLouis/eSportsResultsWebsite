@@ -6,7 +6,11 @@
         <a href="/leagues/<%= league.id %>">
             <div class="col-md-3 col-sm-6 col-centered">
                 <div class="thumbnail league_thumbnails">
-                    <img class="thumbnail_logos" src="<%= league.image_url %>">
+                    <% if (game.id === 3 && !league.image_url){ %>
+                        <img class="thumbnail_logos" src="http://1000logos.net/wp-content/uploads/2017/12/CSGO-Logo.png">
+                    <% } else { %>
+                        <img class="thumbnail_logos" src="<%= league.image_url %>">
+                    <% } %>
                     <div class="caption"><h6><%= league.name %></h6></div>
                 </div>
             </div>

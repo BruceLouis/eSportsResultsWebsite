@@ -1,6 +1,11 @@
 <% include ../partials/header %>
     <h1><%= series.full_name %> Series for <%= series.league.name %> League </h1>
-    <a href="/leagues/<%=series.league.id%>"><img class="league_logo" src="<%= series.league.image_url%>"></a>
+    
+    <% if (series.videogame.id === 3 && !series.league.image_url){ %>
+        <a href="/leagues/<%=series.league.id%>"><img class="league_logo" src="http://1000logos.net/wp-content/uploads/2017/12/CSGO-Logo.png"></a>
+    <% } else { %>
+        <a href="/leagues/<%=series.league.id%>"><img class="league_logo" src="<%= series.league.image_url%>"></a>
+    <% } %>
     <% series.tournaments.forEach(function(tournament){ %>
         <div>
             <% var tournament_title = tournament.name.split(" "); %>
